@@ -1,0 +1,24 @@
+# Entornos virtuales
+/venv/
+
+# Archivos de configuración local
+*.env
+*.sqlite3
+
+# Archivos de caché y compilados
+sistemaPOS/__pycache__/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Carpeta de medios subidos
+media/
+
+# Archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
+
+# Carpeta de migraciones de Django
+*/migrations/
