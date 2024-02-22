@@ -1,0 +1,9 @@
+<h1>Inventario</h1>
+
+{% for product in products %}
+
+<div>
+   <p> {{ product.name}}: {{ product.stock }} unidades </p>
+</div>
+
+{% endfor %}

@@ -1,0 +1,9 @@
+<h1>Elimine productos del inventario</h1>
+
+<form method="POST">
+   {% csrf_token %}
+   {{ form.as_p }}
+   <button>
+      Eliminar
+   </button>
+</form>

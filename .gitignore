@@ -21,4 +21,4 @@ media/
 Thumbs.db
 
 # Carpeta de migraciones de Django
-*/migrations/
+# */migrations/
