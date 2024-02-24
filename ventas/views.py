@@ -10,8 +10,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
 
-def index(request):
-   return render(request, 'index.html')
+# def index(request):
+#    return render(request, 'index.html')
 
 def create_product(request):
    if request.method == 'POST':

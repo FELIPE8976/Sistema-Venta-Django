@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema POST</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'inventory' %}">Inventory</a>
+            </li>
+            <li>
+                <a href="{% url 'new_product' %}">New Product</a>
+            </li>
+            <li>
+                <a href="{% url 'update_product' %}">Update Product</a>
+            </li>
+            <li>
+                <a href="{% url 'delete_product' %}">Delete Product</a>
+            </li>
+            <li>
+                <a href="{% url 'report' %}">Report</a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'signin' %}">Sign in</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+</body>
+</html>
