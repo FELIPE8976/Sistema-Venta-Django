@@ -1,0 +1,21 @@
+<h1>Todos los productos disponibles</h1>
+
+{% for i in products %}
+
+<div>
+    {% if i.stock >= 5 %}
+    <h2>{{i.name}}</h2>
+    <p>Unidades en Stock: {{i.stock}}</p>
+    {% endif %}
+
+    <form method="post" action="/agregar_producto_carrito/">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ i.id }}">
+        <label for="quantity">Cantidad:</label>
+        <input type="number" name="quantity" min="1" max="{{ i.stock }}" required>
+        <button type="submit">🛒 Agregar</button>
+    </form>
+
+</div>
+
+{% endfor %}

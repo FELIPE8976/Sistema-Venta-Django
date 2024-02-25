@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Carrito_products
 from .forms import CreateNewProduct, UpdateProduct, DeleteProduct
 from io import BytesIO
 from datetime import datetime
@@ -91,3 +91,23 @@ def report(request):
    response.write(buffer.getvalue())
    buffer.close()
    return response
+
+def all_products(request):
+   products = Product.objects.all()
+   return render(request, 'comprar/all_products.html', {'products': products})
+
+def carrito(request):
+   carrito_products = Carrito_products.objects.all()
+   return render(request, 'comprar/carrito.html', {'carrito_products': carrito_products})
+
+def agregar_producto_carrito(request):
+   if request.method == 'POST':
+      product_id = request.POST.get('product_id')
+      quantity = int(request.POST.get('quantity'))
+      product = Product.objects.get(pk=product_id)
+      if 1 <= quantity <= product.stock:
+         Carrito_products.objects.create(name=product, units=quantity)
+         product.stock -= quantity
+         product.save()
+      return redirect('/all_products/')
+   return render(request, 'all_products.html')
