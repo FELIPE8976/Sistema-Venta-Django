@@ -1,13 +1,13 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
 <div class="signin">
-   <h1>Actualice las existencias de los productos</h1>
+   <h1>Update existing units </h1>
 
    <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
       <button>
-         Actualizar
+         Update
       </button>
    </form>
 </div>
