@@ -109,5 +109,5 @@ def agregar_producto_carrito(request):
          Carrito_products.objects.create(name=product, units=quantity)
          product.stock -= quantity
          product.save()
-      return redirect('/all_products/')
-   return render(request, 'all_products.html')
+      return redirect('all_products')
+   return render(request, 'comprar/all_products.html')

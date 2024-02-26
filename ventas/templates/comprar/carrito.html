@@ -1,8 +1,16 @@
-<h1>🛒 Carrito de compras</h1>
+{% extends 'layouts/base.html' %}
+{% block content %}
 
-{% for i in carrito_products %}
+<div class="signin">
 
-    <h2>✓ {{i.name.name}}</h2>
-    <p>Unidades: {{i.units}}</p>
+    <h1>🛒 Carrito de compras</h1>
 
-{% endfor %}
+    {% for i in carrito_products %}
+
+        <h2>✓ {{i.name.name}}</h2>
+        <p>Unidades: {{i.units}}</p>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

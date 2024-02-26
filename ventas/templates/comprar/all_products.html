@@ -1,8 +1,11 @@
-<h1>Todos los productos disponibles</h1>
+{% extends 'layouts/base.html' %}
+{% block content %}
+
 
 {% for i in products %}
 
-<div>
+<div class="signin">
+    <h1>Todos los productos disponibles</h1>
     {% if i.stock >= 5 %}
     <h2>{{i.name}}</h2>
     <p>Unidades en Stock: {{i.stock}}</p>
@@ -19,3 +22,4 @@
 </div>
 
 {% endfor %}
+{% endblock %}
