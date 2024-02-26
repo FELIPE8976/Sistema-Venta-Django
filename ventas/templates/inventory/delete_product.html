@@ -1,9 +1,14 @@
-<h1>Elimine productos del inventario</h1>
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="signin">
+   <h1>Elimine productos del inventario</h1>
 
-<form method="POST">
-   {% csrf_token %}
-   {{ form.as_p }}
-   <button>
-      Eliminar
-   </button>
-</form>
+   <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button>
+         Eliminar
+      </button>
+   </form>
+</div>
+{% endblock %}

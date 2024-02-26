@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<div class="signin">
+
+    <h1>🛒 Carrito de compras</h1>
+
+    {% for i in carrito_products %}
+
+        <h2>✓ {{i.name.name}}</h2>
+        <p>Unidades: {{i.units}}</p>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

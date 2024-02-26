@@ -1,9 +1,14 @@
-<h1>Actualice las existencias de los productos</h1>
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="signin">
+   <h1>Actualice las existencias de los productos</h1>
 
-<form method="POST">
-   {% csrf_token %}
-   {{ form.as_p }}
-   <button>
-      Actualizar
-   </button>
-</form>
+   <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button>
+         Actualizar
+      </button>
+   </form>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+body{
+    background-color: #DBDBDB;
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    font-size: 16px ;
+}
+
+.navbar{
+    display: block;
+    background-color: #1E1919;
+    padding: 5px 12px 5px 12px;
+}
+
+.navbar ul{
+    display: flex;
+    justify-content: space-between;
+    padding-inline-start: 0px;
+}
+
+.navbar ul li{
+    list-style: none;
+}
+
+.navbar ul li a{
+    text-decoration: none;
+    color: #fff;   
+}
+
+.navbar ul li a:hover{
+    color: #DBDBDB;
+    font-size: 16.5px;
+}
+
+.container{
+    display: flex;
+    margin: auto;
+}
+
+.container .welcome{
+    margin-inline-start: 0;
+    margin: 12.5% auto;
+    font-size: 91px;
+}
+
+.signin{
+    margin: auto;
+}
