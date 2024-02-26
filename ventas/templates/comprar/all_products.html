@@ -2,24 +2,24 @@
 {% block content %}
 
 
+<div class="signin">
+    <h1>All products in stock</h1>
 {% for i in products %}
 
-<div class="signin">
-    <h1>Todos los productos disponibles</h1>
     {% if i.stock >= 5 %}
     <h2>{{i.name}}</h2>
-    <p>Unidades en Stock: {{i.stock}}</p>
-    {% endif %}
-
+    <p>Stock: {{i.stock}}</p>
+    
     <form method="post" action="/agregar_producto_carrito/">
         {% csrf_token %}
         <input type="hidden" name="product_id" value="{{ i.id }}">
-        <label for="quantity">Cantidad:</label>
+        <label for="quantity">Quantity:</label>
         <input type="number" name="quantity" min="1" max="{{ i.stock }}" required>
-        <button type="submit">🛒 Agregar</button>
+        <button type="submit">🛒 Add</button>
     </form>
+    {% endif %}
 
+    
+    {% endfor %}
+    {% endblock %}
 </div>
-
-{% endfor %}
-{% endblock %}

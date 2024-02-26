@@ -58,7 +58,7 @@ def report(request):
    products = Product.objects.all().order_by('stock')
    buffer = BytesIO()
    pdf = SimpleDocTemplate(buffer, pagesize=letter) 
-   data = [['Nombre','Cantidad']]
+   data = [['Name','Stock']]
 
    for product in products:
       data.append([product.name, str(product.stock)])
@@ -76,10 +76,10 @@ def report(request):
    # Elementos del pdf
    tabla.setStyle(style)
    styles = getSampleStyleSheet()
-   fecha = Paragraph(f"Fecha: {date}\n")
-   titulo = Paragraph("Reporte de inventario", styles['Title'])
+   fecha = Paragraph(f"Date: {date}\n")
+   titulo = Paragraph("Inventory report", styles['Title'])
    titulo.spaceAfter = 30
-   texto = Paragraph("A continuación, se mostrarán todos los productos disponibles:", styles['Normal'])
+   texto = Paragraph("All available products:", styles['Normal'])
    texto.spaceAfter = 20 
 
    # Crear PDF

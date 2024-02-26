@@ -1,12 +1,12 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
 <div class="signin">
-   <h1>Inventario</h1>
+   <h1>Inventory</h1>
 
    {% for product in products %}
 
    <div>
-      <p> {{ product.name}}: {{ product.stock }} unidades </p>
+      <p> {{ product.name}}: {{ product.stock }} Units </p>
    </div>
 
    {% endfor %}

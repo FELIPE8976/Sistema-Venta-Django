@@ -1,13 +1,13 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
 <div class="signin">
-   <h1>Agregue los nuevos productos</h1>
+   <h1>Add new product</h1>
 
    <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
       <button>
-         Crear
+         Create
       </button>
    </form>
 </div>
