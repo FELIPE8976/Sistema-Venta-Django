@@ -9,7 +9,7 @@ class CreateNewProduct(forms.Form):
    def clean_name(self):
       name = self.cleaned_data.get('name')
       if name:
-         if Product.objects.filter(name =name).exists():
+         if Product.objects.filter(name=name).exists():
             raise ValidationError('This product already exist')
       return name
    
@@ -19,3 +19,6 @@ class DeleteProduct(forms.Form):
 class UpdateProduct(forms.Form):
    product = forms.ModelChoiceField(queryset=Product.objects.all(), label='Select a product to update')
    stock = forms.IntegerField(label='Enter a new quantity', min_value=0)
+
+class ApplyDiscount(forms.Form):
+   discount = forms.IntegerField(label='Enter discount if applicable', min_value= 0, max_value=50)

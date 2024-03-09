@@ -6,7 +6,7 @@
     <h1>All products in stock</h1>
 {% for i in products %}
 
-    {% if i.stock >= 5 %}
+    {% if i.stock >= 0 %}
     <h2>{{i.name}}</h2>
     <p>Stock: {{i.stock}}</p>
     

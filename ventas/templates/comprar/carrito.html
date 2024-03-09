@@ -5,12 +5,27 @@
 
     <h1>🛒 Cart</h1>
 
-    {% for i in carrito_products %}
+    {% for cart_product in carrito_products %}
 
-        <h2>✓ {{i.name.name}}</h2>
-        <p>Units: {{i.units}}</p>
-
+        <h2>✓ {{cart_product.name.name}}</h2>
+        <p id="products">Units: {{cart_product.units}} - Total: {{cart_product.total}}</p>
+        <p>
+            <form method="POST" action="/apply_discount/">
+                {% csrf_token %}
+                <input type="hidden" name="discount_id" value="{{cart_product.id}}">
+                <input type="number" name="discount_value">
+                <button type="submit" class="submit">Aplicar descuento</button>
+            </form>
+        </p>
+        <p>
+            <form method="POST" action="/delete_cart_product/">
+                {% csrf_token %}
+                <input type="hidden" name="cart_product_id" value="{{cart_product.id}}">
+                <input type="hidden" name="cart_product_units" value="{{cart_product.units}}">
+                <button type="submit" class="submit"> Delete </button>
+            </form>
+        </p>
+        
     {% endfor %}
 </div>
-
 {% endblock %}

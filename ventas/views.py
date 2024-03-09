@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Product, Carrito_products
-from .forms import CreateNewProduct, UpdateProduct, DeleteProduct
+from .forms import CreateNewProduct, UpdateProduct, DeleteProduct, ApplyDiscount
 from io import BytesIO
 from datetime import datetime
 from reportlab.lib import colors
@@ -106,8 +106,33 @@ def agregar_producto_carrito(request):
       quantity = int(request.POST.get('quantity'))
       product = Product.objects.get(pk=product_id)
       if 1 <= quantity <= product.stock:
-         Carrito_products.objects.create(name=product, units=quantity)
+         #discount = product.unit_price * (product.discount / 100)
+         total = quantity * product.unit_price
+         Carrito_products.objects.create(name=product, units=quantity, total=total)
          product.stock -= quantity
          product.save()
       return redirect('all_products')
    return render(request, 'comprar/all_products.html')
+
+def delete_cart_product(request):
+   if request.method == 'POST':
+      cart_product_id = request.POST.get('cart_product_id')
+      cart_product = Carrito_products.objects.get(id=cart_product_id)
+      product = Product.objects.get(id=cart_product.name_id)
+      product.stock += cart_product.units
+      product.save()
+      cart_product.delete()
+      return redirect('carrito')
+   return render(request, 'comprar/carrito.html')
+
+def apply_discount(request):
+   if request.method == 'POST':
+      discount_id = request.POST.get('discount_id')
+      discount_value = request.POST.get('discount_value')
+      cart_product = Carrito_products.objects.get(id=discount_id)
+      product = Product.objects.get(id=cart_product.name_id)
+      new_price = cart_product.units * (product.unit_price - (product.unit_price * (int(discount_value) / 100)))
+      cart_product.total = new_price
+      cart_product.save()
+      return redirect('carrito')
+   return render(request, 'comprar/carrito.html')
