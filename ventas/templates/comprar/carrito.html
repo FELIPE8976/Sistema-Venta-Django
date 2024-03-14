@@ -1,16 +1,42 @@
 {% extends 'layouts/base.html' %}
+
+{% block search_bar %}
+{% endblock %}
+
 {% block content %}
-
+<div class="products">
 <div class="signin">
+    {% if carrito_products %}
+        <h1>🛒 Cart</h1>
+        {% for cart_product in carrito_products %}
 
-    <h1>🛒 Cart</h1>
-
-    {% for i in carrito_products %}
-
-        <h2>✓ {{i.name.name}}</h2>
-        <p>Units: {{i.units}}</p>
-
-    {% endfor %}
+            <h2>✓ {{cart_product.name.name}}</h2>
+            <p id="products">Units: {{cart_product.units}} - Total: ${{cart_product.total}}</p>
+            {% if not cart_product.have_coupon %}
+                <p>
+                    <form method="POST" action="/apply_discount/">
+                        {% csrf_token %}
+                        <input type="hidden" name="discount_id" value="{{cart_product.id}}">
+                        <input type="number" name="discount_value">
+                        <button type="submit" class="submit">Aplicar descuento</button>
+                    </form>
+                </p>
+            {% endif %}
+            <p>
+                <form method="POST" action="/delete_cart_product/">
+                    {% csrf_token %}
+                    <input type="hidden" name="cart_product_id" value="{{cart_product.id}}">
+                    <input type="hidden" name="cart_product_units" value="{{cart_product.units}}">
+                    <button type="submit" class="submit"> Delete </button>
+                </form>
+            </p>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <h2> No products have been added to the shopping cart </h2>
+            <center><img src="../../static/img/empty_cart.png" width="400px" height="400px"></center>
+        </div>
+    {% endif %}
+    </div>
 </div>
-
 {% endblock %}
