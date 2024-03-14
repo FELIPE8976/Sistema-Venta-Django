@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from .models import Product, Carrito_products
+from .models import Product, Carrito_products, Sell_history
 from .forms import CreateNewProduct, UpdateProduct, DeleteProduct
 from io import BytesIO
 from datetime import datetime
@@ -11,6 +11,8 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+from django.utils import timezone
+from django.db.models import Sum
 
 
 def create_product(request):
@@ -163,6 +165,7 @@ def apply_discount(request):
       cart_product.save()
       return redirect('carrito')
    return render(request, 'comprar/carrito.html')
+
 def discounts(request):
    products = Product.objects.all()
    return render(request, 'comprar/discounts.html',{
@@ -180,15 +183,28 @@ def delete_cart_product(request):
       return redirect('carrito')
    return render(request, 'comprar/carrito.html')
 
-def apply_discount(request):
-   if request.method == 'POST':
-      discount_id = request.POST.get('discount_id')
-      discount_value = request.POST.get('discount_value')
-      cart_product = Carrito_products.objects.get(id=discount_id)
-      product = Product.objects.get(id=cart_product.name_id)
-      new_price = cart_product.units * (product.unit_price - (product.unit_price * (int(discount_value) / 100)))
-      cart_product.total = new_price
-      cart_product.have_coupon = 1
-      cart_product.save()
-      return redirect('carrito')
-   return render(request, 'comprar/carrito.html')
+def buy(request):
+   user = request.user
+   products_in_cart = Carrito_products.objects.filter(user=user)
+   if products_in_cart:
+      total = products_in_cart.aggregate(total=Sum('total'))['total']
+      sell_date = timezone.now()
+      product_names = [product.name.name for product in products_in_cart]
+      product_list = ' '.join(product_names)
+      Sell_history.objects.create(user=user, total=total, sell_date=sell_date,product_list=product_list)
+      history = Sell_history.objects.filter(user=request.user)
+      products_in_cart.delete()
+      return render(request,'comprar/history.html',{
+         'products':history,
+      })
+   else:
+      history = Sell_history.objects.filter(user=request.user)
+      if history:
+         return render(request,'comprar/history.html',{
+            'products':history,
+         })
+      else:
+         return render(request,'comprar/history.html',{
+            'error':'Aún no se ah realizado ventas',
+         })
+

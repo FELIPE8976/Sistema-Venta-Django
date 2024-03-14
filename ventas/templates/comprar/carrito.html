@@ -31,6 +31,7 @@
                 </form>
             </p>
         {% endfor %}
+        <button id="actions" onclick="window.location.href='{% url 'history' %}'">Buy</button>
     {% else %}
         <div class="empty">
             <h2> No products have been added to the shopping cart </h2>

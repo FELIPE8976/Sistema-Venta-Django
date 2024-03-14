@@ -140,3 +140,31 @@ body{
         0 0 10px rgba(0,0,0,.8)
     )
 }
+
+.products .signin #actions{
+    background-color: #1E1919;
+    border-radius: 25px;
+    border-color: #1E1919;
+    color: #fff;
+    font-family: monospace;
+    font-size: 12px;
+    width: 10em;
+    height: 4em;
+}
+
+.products .signin #actions:hover{
+    background-color: #DBDBDB;
+    border-color: #DBDBDB;
+    font-size: 14px;
+    color: black;
+    transition: .2s;
+}
+
+.table{
+    margin:auto;
+    width: 50%;
+}
+
+.table td{
+    width: 250px;
+}
