@@ -9,7 +9,7 @@ from io import BytesIO
 from datetime import datetime
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from datetime import datetime, timedelta, time
 
@@ -78,7 +78,6 @@ def report(request):
                      ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#FCC691')),
                      ('GRID', (0, 0), (-1, -1), 1, colors.black)])
 
-   # Elementos del pdf
    tabla.setStyle(style)
    styles = getSampleStyleSheet()
    fecha = Paragraph(f"Date: {date}\n")
@@ -87,10 +86,8 @@ def report(request):
    texto = Paragraph("All available products:", styles['Normal'])
    texto.spaceAfter = 20 
 
-   # Crear PDF
    pdf.build([fecha,titulo,texto,tabla])
 
-   # Devolver el PDF como una respuesta HTTP
    response = HttpResponse(content_type='application/pdf')
    response['Content-Disposition'] = 'attachment; filename="Reporte_inventario.pdf"'
    response.write(buffer.getvalue())
@@ -133,7 +130,7 @@ def agregar_producto_carrito(request):
       user = request.user
       if 1 <= quantity <= product.stock:
          total = quantity * product.unit_price
-         Carrito_products.objects.create(name=product, units=quantity, total=total, user=user)
+         Carrito_products.objects.create(name=product, units=quantity, unit_price=product.unit_price, total=total, user=user)
          product.stock -= quantity
          product.save()
          if product.stock <= 5:
@@ -143,7 +140,7 @@ def agregar_producto_carrito(request):
 
 def sedes(request):
    sedes = [
-        {'nombre': 'North', 'direccion' : 'Cl. 38 Nte. #6N – 45, Cali, Valle del Cauca', 'hora_apertura': time(6, 0), 'hora_cierre': time(16, 0), 'link' : 'https://www.google.com/maps/dir//Centro+Comercial+Chipichape,+Cl.+38+Nte.+%236N+–+45,+Cali,+Valle+del+Cauca/@3.4742296,-76.5320935,17z/data=!4m12!1m2!2m1!1schipichape+maps!4m8!1m0!1m5!1m1!1s0x8e30a618c17d3bf7:0x516c5b91fa92e1b9!2m2!1d-76.5278784!2d3.4760132!3e2?entry=ttu'},
+        {'nombre': 'North', 'direccion' : 'Cl. 38 Nte. #6N–45, Cali, Valle del Cauca', 'hora_apertura': time(6, 0), 'hora_cierre': time(16, 0), 'link' : 'https://www.google.com/maps/dir//Centro+Comercial+Chipichape,+Cl.+38+Nte.+%236N+–+45,+Cali,+Valle+del+Cauca/@3.4742296,-76.5320935,17z/data=!4m12!1m2!2m1!1schipichape+maps!4m8!1m0!1m5!1m1!1s0x8e30a618c17d3bf7:0x516c5b91fa92e1b9!2m2!1d-76.5278784!2d3.4760132!3e2?entry=ttu'},
         {'nombre': 'South', 'direccion' : 'Cra. 100 #5-169, Cali, Valle del Cauca', 'hora_apertura': time(9, 0), 'hora_cierre': time(18, 0), 'link' : 'https://www.google.com/maps/dir//Unicentro+Cali,+Carrera+100,+Las+Vegas,+Cali,+Valle+del+Cauca/@3.374148,-76.5803696,13z/data=!3m1!4b1!4m9!4m8!1m0!1m5!1m1!1s0x8e30a17ab8179221:0xcfd9c65aada830d9!2m2!1d-76.5391697!2d3.3740632!3e2?entry=ttu'},
     ]
    hora_actual_colombia = datetime.utcnow() - timedelta(hours=5)
@@ -207,4 +204,60 @@ def apply_discount(request):
       cart_product.save()
       return redirect('carrito')
    return render(request, 'comprar/carrito.html')
+
+def bill(request):
+    cart_products = Carrito_products.objects.all()
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    data = [['NAME', 'QUANTITY', 'UNIT VALUE', 'TOTAL VALUE']]
+    total_bill = 0
+    for product in cart_products:
+        total_bill += product.total
+        data.append([product.name, str(product.units), f'${product.unit_price}', f'${product.total}'])
+    data.append(["","","TOTAL",f'${total_bill}'])
+
+    style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.white),  
+                        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),  
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),           
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),         
+                        ('GRID', (0, 0), (-1, -1), 1, colors.black)     
+                     ])
+
+    table = Table(data)
+    table.setStyle(style)
+    
+    user = request.user
+    company_name = "SISTEMA POST"
+    n_bill = "#001"
+    company_address = "Cl.38 Nte. #6N-45"
+    company_city = "Cali"
+    company_tel = "01800-912-919"
+    company_email = "info@sistemapost.com"
+
+    styles = getSampleStyleSheet()
+    date =Paragraph(f"Date: {datetime.now().strftime("%d-%m-%Y %H:%M:%S")}", styles['Normal'])
+    user_info = Paragraph(f"<b>Nº Bill:</b> {n_bill}<br/><b>Client:</b> {user}", styles['Normal'])
+    company_info = Paragraph(f"<b>Company:</b> {company_name}<br/><b>Address:</b> {company_address}<br/>"
+                             f"<b>City:</b> {company_city}<br/><b>Tel:</b> {company_tel}<br/>"
+                             f"<b>Email:</b> {company_email}", styles['Normal'])
+    date.spaceAfter = 20
+    company_info.spaceAfter = 20
+
+    image_path = 'D:/Semestre 7/Ing. de Software/Sistema-Venta-Django/ventas/static/img/logoPOS.png'
+    logo = Image(image_path, width=100, height=100)
+
+    pdf.build([logo,
+               Paragraph("BILL", styles['Title']),
+               date,
+               user_info,
+               company_info,
+               table])
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="factura.pdf"'
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
 

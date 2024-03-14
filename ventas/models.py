@@ -17,6 +17,7 @@ class Carrito_products(models.Model):
    name = models.ForeignKey(Product, on_delete=models.CASCADE)
    units = models.IntegerField(default=0)
    have_coupon = models.BooleanField(default=0)
+   unit_price = models.IntegerField(default = 0)
    total = models.IntegerField(default=0)
    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
