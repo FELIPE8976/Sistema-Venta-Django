@@ -8,6 +8,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+from datetime import datetime, timedelta, time
 
 
 # def index(request):
@@ -111,3 +112,17 @@ def agregar_producto_carrito(request):
          product.save()
       return redirect('all_products')
    return render(request, 'comprar/all_products.html')
+
+def sedes(request):
+   sedes = [
+        {'nombre': 'North', 'direccion' : 'Cl. 38 Nte. #6N – 45, Cali, Valle del Cauca', 'hora_apertura': time(6, 0), 'hora_cierre': time(16, 0), 'link' : 'https://www.google.com/maps/dir//Centro+Comercial+Chipichape,+Cl.+38+Nte.+%236N+–+45,+Cali,+Valle+del+Cauca/@3.4742296,-76.5320935,17z/data=!4m12!1m2!2m1!1schipichape+maps!4m8!1m0!1m5!1m1!1s0x8e30a618c17d3bf7:0x516c5b91fa92e1b9!2m2!1d-76.5278784!2d3.4760132!3e2?entry=ttu'},
+        {'nombre': 'South', 'direccion' : 'Cra. 100 #5-169, Cali, Valle del Cauca', 'hora_apertura': time(9, 0), 'hora_cierre': time(18, 0), 'link' : 'https://www.google.com/maps/dir//Unicentro+Cali,+Carrera+100,+Las+Vegas,+Cali,+Valle+del+Cauca/@3.374148,-76.5803696,13z/data=!3m1!4b1!4m9!4m8!1m0!1m5!1m1!1s0x8e30a17ab8179221:0xcfd9c65aada830d9!2m2!1d-76.5391697!2d3.3740632!3e2?entry=ttu'},
+    ]
+   hora_actual_colombia = datetime.utcnow() - timedelta(hours=5)
+   hora_actual_colombia = hora_actual_colombia.time()
+   for sede in sedes:
+        if sede['hora_apertura'] <= hora_actual_colombia <= sede['hora_cierre']:
+            sede['estado'] = "Open"
+        else:
+            sede['estado'] = "Close"
+   return render(request, 'comprar/sedes.html', {'sedes': sedes})
