@@ -1,14 +1,23 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-<div class="signin">
-   <h1>Inventory</h1>
+<div class="buttons">
+   <button id="actions" onclick="window.location.href='{% url 'inventory' %}'">Show</button>
+   <button id="actions" onclick="window.location.href='{% url 'new_product' %}'">Create</button>
+   <button id="actions" onclick="window.location.href='{% url 'delete_product' %}'">Delete</button>
+   <button id="actions" onclick="window.location.href='{% url 'update_product' %}'">Update</button>
+   <button id="actions" onclick="window.location.href='{% url 'report' %}'">Report</button>
+</div>
+<div class="products">
+   <div class="signin">
+      <h1>Inventory</h1>
 
-   {% for product in products %}
+      {% for product in products %}
 
-   <div>
-      <p> {{ product.name}}: {{ product.stock }} Units </p>
+      <div>
+         <p> {{ product.name}}: {{ product.stock }} Units </p>
+      </div>
+
+      {% endfor %}
    </div>
-
-   {% endfor %}
 </div>
 {% endblock %}

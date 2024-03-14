@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block search_bar %}
+{% endblock %}
+
+{% block content %}
+<div class="products">
+    <div class="signin">    
+        <h1>Discounts</h1>
+    </div>
+        <div class="discount">
+            {% for product in products %}
+                {% if product.have_discount %}
+                <div>
+                    <p> {{ product.name}} </p> 
+                    <p> {{ product.stock }} Units </p>
+                    <p> {{product.unit_price}} </p>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

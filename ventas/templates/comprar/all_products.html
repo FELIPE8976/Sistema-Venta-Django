@@ -1,28 +1,28 @@
 {% extends 'layouts/base.html' %}
-{% block content %}
+
 
 {% block search_bar %}
 {% endblock %}
 
+{% block content %}
+<div class="products">
+    <div class="signin">
+        <h1>All products in stock</h1>
+    {% for i in products %}
 
-<div class="signin">
-    <h1>All products in stock</h1>
-{% for i in products %}
-
-    {% if i.stock >= 0 %}
-    <h2>{{i.name}}</h2>
-    <p>Stock: {{i.stock}}</p>
-    
-    <form method="post" action="/agregar_producto_carrito/">
-        {% csrf_token %}
-        <input type="hidden" name="product_id" value="{{ i.id }}">
-        <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" min="1" max="{{ i.stock }}" required>
-        <button type="submit">🛒 Add</button>
-    </form>
-    {% endif %}
-
-    
-    {% endfor %}
-    {% endblock %}
+        {% if i.stock >= 0 %}
+        <h2>{{i.name}}</h2>
+        <p>Stock: {{i.stock}}</p>
+        
+        <form method="post" action="/agregar_producto_carrito/">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ i.id }}">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" min="1" max="{{ i.stock }}" required>
+            <button class="submit" type="submit">🛒 Add</button>
+        </form>
+        {% endif %}      
+        {% endfor %}
+    </div>
 </div>
+{% endblock %}

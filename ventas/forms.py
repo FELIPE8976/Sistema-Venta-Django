@@ -5,6 +5,7 @@ from .models import Product
 class CreateNewProduct(forms.Form):
    name = forms.CharField(label='Enter the name of the new product', max_length=200)
    stock = forms.IntegerField(label='Enter the quantity')
+   price = forms.IntegerField(label='Enter the price')
 
    def clean_name(self):
       name = self.cleaned_data.get('name')

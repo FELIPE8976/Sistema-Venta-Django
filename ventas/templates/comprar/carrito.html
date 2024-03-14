@@ -1,9 +1,10 @@
 {% extends 'layouts/base.html' %}
-{% block content %}
 
 {% block search_bar %}
 {% endblock %}
 
+{% block content %}
+<div class="products">
 <div class="signin">
     {% if carrito_products %}
         <h1>🛒 Cart</h1>
@@ -31,7 +32,11 @@
             </p>
         {% endfor %}
     {% else %}
-        <h2> No se han agregado productos al carro de compras </h2>
+        <div class="empty">
+            <h2> No products have been added to the shopping cart </h2>
+            <center><img src="../../static/img/empty_cart.png" width="400px" height="400px"></center>
+        </div>
     {% endif %}
+    </div>
 </div>
 {% endblock %}

@@ -5,27 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema POST</title>
+    <link rel="icon" href="{% static 'img/icono.jpeg' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
     <nav class="navbar">
         <ul>
-            {% if user.is_authenticated %}
             <li>
                 <a href="{% url 'index' %}">Home</a>
             </li>
-            <li>
-                <a href="{% url 'inventory' %}">Inventory</a>
-            </li>
-            <li>
-                <a href="{% url 'new_product' %}">New Product</a>
-            </li>
-            <li>
-                <a href="{% url 'update_product' %}">Update Product</a>
-            </li>
-            <li>
-                <a href="{% url 'delete_product' %}">Delete Product</a>
-            </li>
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <li>
+                    <a href="{% url 'inventory' %}">Inventory</a>
+                </li>
+                {% endif %}
             <li>
                 <a href="{% url 'all_products' %}">Available products</a>
             </li>
@@ -33,15 +27,9 @@
                 <a href="{% url 'carrito' %}">Cart</a>
             </li>
             <li>
-                <a href="{% url 'report' %}">Report</a>
-            </li>
-            <li>
                 <a href="{% url 'logout' %}">Logout</a>
             </li>
             {% else %}
-            <li>
-                <a href="{% url 'index' %}">Home</a>
-            </li>
             <li>
                 <a href="{% url 'signin' %}">Sign in</a>
             </li>
@@ -61,6 +49,24 @@
         {% block content %}
         {% endblock %}
     </main>
-    
+
+    <script>
+        const currentPage = window.location.href;
+        const linkElements = document.getElementsByTagName("a");
+        for (let i = 0; i < linkElements.length; i++) {
+            if (currentPage.includes("/inventory/")) {
+                // Si la URL actual contiene "/inventory/", se resalta el enlace
+                if (linkElements[i].href.includes("/inventory/")) {
+                    linkElements[i].classList.add("active-link");
+                }
+            } else {
+                // Si la URL actual no contiene "/inventory/", se compara la URL exacta
+                if (linkElements[i].href === currentPage) {
+                    linkElements[i].classList.add("active-link");
+                }
+            }
+        }
+    </script>
+        
 </body>
 </html>
