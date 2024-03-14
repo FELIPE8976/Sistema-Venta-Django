@@ -49,6 +49,14 @@
 
         </ul>
     </nav>
+    {% block search_bar %}
+    <div class="search">
+        <form method="GET">
+           <input type="text" placeholder="Search product..." name="search">
+           <button type="submit" >Search</button>
+        </form>
+    </div>
+    {% endblock %}
     <main class="container">
         {% block content %}
         {% endblock %}

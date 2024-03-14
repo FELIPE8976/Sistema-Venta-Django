@@ -46,3 +46,27 @@ body{
 .signin{
     margin: auto;
 }
+
+.search {
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search input[type=text]{
+    width: 500px;
+    height: 25px;
+    border: none;
+    border-radius: 15px;
+    outline: 0;
+    font-size: 17px;
+}
+
+.search button{
+    background-color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    height: 25px;
+}

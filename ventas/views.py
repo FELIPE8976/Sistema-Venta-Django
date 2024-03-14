@@ -1,5 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.db.models import Q
 from .models import Product, Carrito_products
 from .forms import CreateNewProduct, UpdateProduct, DeleteProduct, ApplyDiscount
 from io import BytesIO
@@ -9,9 +13,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
-
-# def index(request):
-#    return render(request, 'index.html')
 
 def create_product(request):
    if request.method == 'POST':
@@ -50,7 +51,10 @@ def delete_product(request):
    return render(request, 'inventory/delete_product.html', {'form': form})
 
 def inventory(request):
+   queryset = request.GET.get("search")
    products = Product.objects.all()
+   if queryset:
+      products = Product.objects.filter(name__icontains=queryset)
    return render(request, 'inventory/show_products.html', {'products': products})
 
 def report(request):
@@ -100,17 +104,38 @@ def carrito(request):
    carrito_products = Carrito_products.objects.all()
    return render(request, 'comprar/carrito.html', {'carrito_products': carrito_products})
 
+def notify_low_stock(product, stock):
+   subject = 'Se agota un producto'
+   message = 'Quedan pocas unidades del producto:'
+   template = render_to_string('inventory/email.html', {
+      'message': message,
+      'product': product,
+      'units': stock,
+   })
+
+   email = EmailMessage(
+      subject,
+      template,
+      settings.EMAIL_HOST_USER,
+      ['carloscamacho0602@gmail.com']
+   )
+
+   email.fail_silently = False
+   email.send()
+
+
 def agregar_producto_carrito(request):
    if request.method == 'POST':
       product_id = request.POST.get('product_id')
       quantity = int(request.POST.get('quantity'))
       product = Product.objects.get(pk=product_id)
       if 1 <= quantity <= product.stock:
-         #discount = product.unit_price * (product.discount / 100)
          total = quantity * product.unit_price
          Carrito_products.objects.create(name=product, units=quantity, total=total)
          product.stock -= quantity
          product.save()
+         if product.stock <= 5:
+            notify_low_stock(product, product.stock)
       return redirect('all_products')
    return render(request, 'comprar/all_products.html')
 
@@ -133,6 +158,7 @@ def apply_discount(request):
       product = Product.objects.get(id=cart_product.name_id)
       new_price = cart_product.units * (product.unit_price - (product.unit_price * (int(discount_value) / 100)))
       cart_product.total = new_price
+      cart_product.have_coupon = 1
       cart_product.save()
       return redirect('carrito')
    return render(request, 'comprar/carrito.html')
