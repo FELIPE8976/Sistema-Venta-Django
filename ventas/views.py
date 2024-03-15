@@ -102,8 +102,16 @@ def all_products(request):
    return render(request, 'comprar/all_products.html', {'products': products})
 
 def carrito(request):
-   carrito_products = Carrito_products.objects.filter(user=request.user)
-   return render(request, 'comprar/carrito.html', {'carrito_products': carrito_products})
+    if request.method == 'POST':
+        amount_paid = float(request.POST.get('amount_paid', 0))
+        carrito_products = Carrito_products.objects.filter(user=request.user)
+        total = carrito_products.aggregate(Sum('total'))['total__sum'] or 0
+        change = amount_paid - total
+        return render(request, 'comprar/carrito.html', {'carrito_products': carrito_products, 'amount_paid': amount_paid, 'total': total, 'change': change})
+    else:
+        carrito_products = Carrito_products.objects.filter(user=request.user)
+        total = carrito_products.aggregate(Sum('total'))['total__sum'] or 0
+        return render(request, 'comprar/carrito.html', {'carrito_products': carrito_products, 'total' : total})
 
 def notify_low_stock(product, stock):
    subject = 'Se agota un producto'

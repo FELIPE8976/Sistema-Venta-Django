@@ -31,6 +31,17 @@
                 </form>
             </p>
         {% endfor %}
+        <h2>Total: ${{ total }}</h2>
+            <form id="checkout-form" method="POST" action="{% url 'carrito' %}">
+                {% csrf_token %}
+                <input type="number" id="amount_paid" name="amount_paid" placeholder="Enter amount paid">
+                <button type="submit" class="submit">Calculate Change</button>
+            </form>
+            {% if amount_paid %}
+                <div id="change-container">
+                    <h2>Change: ${{ change }}</h2>
+                </div>
+            {% endif %}
         <div class="actionscar">
             <button id="actions" onclick="window.location.href='{% url 'bill' %}'">Bill</button>
             <button id="actions" onclick="window.location.href='{% url 'history' %}'">Buy</button>
