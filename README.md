@@ -26,7 +26,7 @@ El proyecto busca realizar un sistema POS, el cual distingue entre dos diferente
 *Stores:* Vista informativa. Se visualiza sin iniciar sesión y muestra de manera interactiva el estado de las diferentes sedes con las que cuenta el negocio/empresa.
 
 # Nota
-LA creacion de usuarios usa la tabla proveniente de Django, es decir que:
+La creación de usuarios usa la tabla proveniente de Django, es decir que:
 
 * *Vendedor:* Se crea mediante el uso de la ruta .../signup/. Esta ruta no esta destinada a ser mostrada en el producto final es unicamente para facilitar la creación del vendedor.
 *  *Administrador:* Se crea haciendo uso del comando de la función que se encuentra en el manage.py de Django """ python manage.py createsuperuser """
