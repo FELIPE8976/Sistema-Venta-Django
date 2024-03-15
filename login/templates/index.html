@@ -1,8 +1,16 @@
 {% extends 'layouts/base.html' %}
+
+{% block search_bar %}
+{% endblock %}
+
 {% block content %}
     {% if user.is_authenticated %}
-        <p class="welcome">Welcome {{user}}</p>
+    <div class="welcome">
+        <p>Welcome {{user}}</p>
+    </div>
     {% else %}
-        <p class="welcome">Welcome</p>
+    <div class="welcome">
+        <p>Welcome</p>
+    </div>    
     {% endif %}
 {% endblock %}

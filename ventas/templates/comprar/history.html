@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+
+{% block search_bar %}
+{% endblock %}
+
+{% block content %}
+<div class="products">
+    <h1>History</h1>
+</div>
+    {%if products%}
+    <div class="table">
+        <table border="1">
+            <thead>
+                <th>Seller</th>
+                <th>Products</th>
+                <th>Date</th>
+                <th>Total</th>
+            </thead>
+            {% for product in products %}
+            <tbody>
+                <tr>
+                <td><p>{{user}}</p></td>
+                <td><p>{{product.product_list}}</p></td>
+                <td><p>{{product.sell_date}}</p></td>
+                <td><p>{{product.total}}</p></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+        <div class="products"><h3>{{error}}</h3></div>
+        <center><img src="../../static/img/emptysales.png" width="400px" height="400px"></center>
+    {% endif %}
+{% endblock %}

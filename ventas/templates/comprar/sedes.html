@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+{% block search_bar %}
+{% endblock %}
+{% block content %}
+
+<div class="products">
+<div class="signin">
+
+    <h1>Stores 📍</h1>
+
+    {% for sede in sedes %}
+        <h2>{{ sede.nombre }}</h2>
+        <h3>{{ sede.direccion}}</h3>
+        <h3>🗺 <a href="{{ sede.link }}" target="_blank">Get directions</a></h3>
+        <h3>Open: {{sede.hora_apertura}} - Close: {{sede.hora_cierre}}</h3>
+        <div class="{% if sede.estado == 'Open' %}abierto{% else %}cerrado{% endif %}">
+            <p>{{ sede.estado }}</p>
+        </div>
+    {% endfor %}
+
+</div>
+</div>
+<style>
+    .abierto {
+        background-color: green; 
+        color: white; 
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .cerrado {
+        background-color: red;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+
+{% endblock %}

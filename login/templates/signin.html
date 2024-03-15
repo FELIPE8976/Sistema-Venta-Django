@@ -1,14 +1,20 @@
 {% extends 'layouts/base.html' %}
+
+{% block search_bar %}
+{% endblock %}
+
 {% block content %}
-<div class="signin">
-    <h1>Sign in</h1>
-    {{error}}
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button>
-            Sign in
-        </button>
-    </form>
+<div class="products">
+    <div class="signin">
+        <h1>Sign in</h1>
+        {{error}}
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>
+                Sign in
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}

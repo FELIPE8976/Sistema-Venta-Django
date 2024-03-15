@@ -14,7 +14,7 @@ body{
 
 .navbar ul{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding-inline-start: 0px;
 }
 
@@ -30,19 +30,146 @@ body{
 .navbar ul li a:hover{
     color: #DBDBDB;
     font-size: 16.5px;
+    transition: .1s;
+}
+
+.navbar ul li .active-link{
+    text-decoration: underline;
+}
+
+.welcome{
+    display: flex;
+    justify-content: center;
+    margin-inline-start: 0;
+    margin: 10% auto;
+    font-size: 91px;
 }
 
 .container{
-    display: flex;
     margin: auto;
-}
-
-.container .welcome{
-    margin-inline-start: 0;
-    margin: 12.5% auto;
-    font-size: 91px;
 }
 
 .signin{
     margin: auto;
+    justify-content: start;
+}
+
+.discount{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 100%;
+    position: absolute;
+    top: 25%;
+    margin: 0 25%;
+    justify-content: center;
+}
+
+.discount div{
+    padding: 0 10%;
+}
+
+.submit{
+    font-family: monospace;
+    border-radius: 15px;
+    color: #DBDBDB;
+    background-color: black;
+}
+
+.submit:hover{
+    color: black;
+    background-color: #DBDBDB;
+    transition: .2s;
+}
+.buttons{
+    display: flex;
+    justify-content: start;
+    padding: 10px;
+    margin: 12px;
+    gap: 2%;
+    height: 2em;
+}
+.buttons #actions{
+    background-color: #1E1919;
+    border-radius: 25px;
+    border-color: #1E1919;
+    color: #fff;
+    font-family: monospace;
+    font-size: 12px;
+    width: 5em;
+}
+
+.buttons #actions:hover{
+    background-color: #DBDBDB;
+    border-color: #DBDBDB;
+    font-size: 14px;
+    color: black;
+    transition: .2s;
+}
+
+.products{
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search input[type=text]{
+    width: 500px;
+    height: 25px;
+    border: none;
+    border-radius: 15px;
+    outline: 0;
+    font-size: 17px;
+}
+
+.search button{
+    background-color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    height: 25px;
+}
+
+.empty img{
+    filter: drop-shadow(
+        0 0 10px rgba(0,0,0,.8)
+    )
+}
+.actionscar{
+    display: flex;
+    justify-content: center;
+}
+.products .signin .actionscar #actions{
+    background-color: #1E1919;
+    border-radius: 25px;
+    border-color: #1E1919;
+    color: #fff;
+    font-family: monospace;
+    font-size: 12px;
+    width: 10em;
+    height: 4em;
+    margin-left: 5%;
+    margin-top: 3%;
+}
+
+.products .signin #actions:hover{
+    background-color: #DBDBDB;
+    border-color: #DBDBDB;
+    font-size: 14px;
+    color: black;
+    transition: .2s;
+}
+
+.table{
+    margin:auto;
+    width: 50%;
+}
+
+.table td{
+    width: 250px;
 }
