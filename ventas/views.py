@@ -226,7 +226,7 @@ def buy(request):
          })
       else:
          return render(request,'comprar/history.html',{
-            'error':'Aún no se ah realizado ventas',
+            'error':'You have not made sales yet',
          })
 
 
