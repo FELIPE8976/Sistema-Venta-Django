@@ -140,8 +140,11 @@ body{
         0 0 10px rgba(0,0,0,.8)
     )
 }
-
-.products .signin #actions{
+.actionscar{
+    display: flex;
+    justify-content: center;
+}
+.products .signin .actionscar #actions{
     background-color: #1E1919;
     border-radius: 25px;
     border-color: #1E1919;
